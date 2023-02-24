@@ -5,3 +5,7 @@ body{
     flex-direction: column;
     gap: 1em;
 }
+
+.reset-btn{
+    display:none;
+}

@@ -54,13 +54,33 @@ function game(playerSelection) {
 }
 
 const gameBtns = document.querySelectorAll(".rps-btn");
+const gameBtnsContainer = document.querySelector(".game-btns");
+const resetBtn = document.querySelector(".reset-btn");
 const resultDisplay = document.querySelector("#result-display");
 const scoreDisplay = document.querySelector("#score-display");
 
+function resetGame() {
+	playerScore = 0;
+	computerScore = 0;
+	resetBtn.style.display = "none";
+	gameBtnsContainer.style.display = "block";
+	scoreDisplay.textContent = "";
+	resultDisplay.textContent = "";
+}
+function endGame() {
+	resultDisplay.textContent = `${
+		playerScore == 5 ? "You win!" : "Better luck next time"
+	}`;
+	scoreDisplay.textContent = `You ${playerScore} - ${computerScore} Computer`;
+	gameBtnsContainer.style.display = "none";
+	resetBtn.style.display = "block";
+}
+resetBtn.addEventListener("click", resetGame);
+
 gameBtns.forEach((btn) => {
 	btn.addEventListener("click", () => {
-		console.log(btn.dataset.weapon);
 		resultDisplay.textContent = game(btn.dataset.weapon);
 		scoreDisplay.textContent = `You ${playerScore} - ${computerScore} Computer`;
+		if (playerScore == 5 || computerScore == 5) endGame();
 	});
 });
