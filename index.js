@@ -1,13 +1,8 @@
 const weapons = ["Rock", "Paper", "Scissors"];
-function printChoices() {
-	for (const [index, element] of weapons.entries()) {
-		console.log(index + 1 + ": " + element);
-	}
-}
+
 function getComputerChoice() {
 	return weapons[Math.floor(Math.random() * 3)];
 }
-console.log(getComputerChoice());
 
 function playRound(playerSelection, computerSelection) {
 	const possibleResults = ["win", "lose", "draw", "error"];
@@ -38,50 +33,34 @@ function playRound(playerSelection, computerSelection) {
 	return possibleResults[result];
 }
 
-function game() {
+function game(playerSelection) {
 	let playerScore = 0,
 		computerScore = 0;
-	for (let i = 0; i < 5; i++) {
-		console.log(`Round ${i + 1}/5`);
-		console.log("Choose your weapon: ");
-		printChoices();
-		let playerSelection = Number(prompt("Enter your choice: (1/2/3)"));
-		while (
-			playerSelection != 1 &&
-			playerSelection != 2 &&
-			playerSelection != 3
-		) {
-			console.log("Invalid input! Try again");
-			printChoices();
-			playerSelection = Number(prompt("Enter your choice: (1/2/3)"));
-		}
-		let computerSelection = Math.floor(Math.random() * 3);
-		let playerWeapon = weapons[playerSelection - 1],
-			computerWeapon = weapons[computerSelection];
-		let result = playRound(playerWeapon, computerWeapon);
 
-		switch (result) {
-			case "win":
-				console.log(`You win! ${playerWeapon} beats ${computerWeapon}`);
-				playerScore++;
-				break;
-			case "lose":
-				console.log(`You lose! ${computerWeapon} beats ${playerWeapon}`);
-				computerScore++;
-				break;
-			case "draw":
-				console.log("It's a draw!");
-				break;
-			default:
-				console.log("Some error occured. Please try again");
-				i--;
-		}
+	let computerSelection = getComputerChoice();
+	let result = playRound(playerSelection, computerSelection);
+
+	switch (result) {
+		case "win":
+			console.log(`You win! ${playerWeapon} beats ${computerWeapon}`);
+			playerScore++;
+			break;
+		case "lose":
+			console.log(`You lose! ${computerWeapon} beats ${playerWeapon}`);
+			computerScore++;
+			break;
+		case "draw":
+			console.log("It's a draw!");
+			break;
+		default:
+			console.log("Some error occured. Please try again");
 	}
-
-	if (playerScore > computerScore)
-		console.log("Congratulations!! You win the game");
-	else if (playerScore < computerScore)
-		console.log("Better luck next time. You lose the game");
-	else console.log("That was quite a game. You are tied after 5 rounds.");
-	alert(`Final score You-${playerScore} Computer-${computerScore}`);
 }
+
+const gameBtns = document.querySelectorAll(".rps-btn");
+gameBtns.forEach((btn) => {
+	btn.addEventListener("click", () => {
+		console.log(btn.dataset.weapon);
+		game(btn.dataset.weapon);
+	});
+});
