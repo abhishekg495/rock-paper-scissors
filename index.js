@@ -1,4 +1,6 @@
 const weapons = ["Rock", "Paper", "Scissors"];
+let playerScore = 0,
+	computerScore = 0;
 
 function getComputerChoice() {
 	return weapons[Math.floor(Math.random() * 3)];
@@ -34,33 +36,31 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game(playerSelection) {
-	let playerScore = 0,
-		computerScore = 0;
-
 	let computerSelection = getComputerChoice();
 	let result = playRound(playerSelection, computerSelection);
 
 	switch (result) {
 		case "win":
-			console.log(`You win! ${playerWeapon} beats ${computerWeapon}`);
 			playerScore++;
-			break;
+			return `You win! ${playerSelection} beats ${computerSelection}`;
 		case "lose":
-			console.log(`You lose! ${computerWeapon} beats ${playerWeapon}`);
 			computerScore++;
-			break;
+			return `You lose! ${computerSelection} beats ${playerSelection}`;
 		case "draw":
-			console.log("It's a draw!");
-			break;
+			return "It's a draw!";
 		default:
-			console.log("Some error occured. Please try again");
+			return "Some error occured. Please try again";
 	}
 }
 
 const gameBtns = document.querySelectorAll(".rps-btn");
+const resultDisplay = document.querySelector("#result-display");
+const scoreDisplay = document.querySelector("#score-display");
+
 gameBtns.forEach((btn) => {
 	btn.addEventListener("click", () => {
 		console.log(btn.dataset.weapon);
-		game(btn.dataset.weapon);
+		resultDisplay.textContent = game(btn.dataset.weapon);
+		scoreDisplay.textContent = `You ${playerScore} - ${computerScore} Computer`;
 	});
 });
